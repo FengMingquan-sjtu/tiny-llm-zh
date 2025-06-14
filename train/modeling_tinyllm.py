@@ -24,8 +24,8 @@ from transformers.utils import logging
 from transformers.generation.utils import GenerationConfig
 from transformers.generation.logits_process import LogitsProcessorList
 
-from .configuration_tinyllm import TinyllmConfig
-from .generation_utils import TextIterStreamer, make_context, OutputRepetitionPenaltyLogitsProcessor, parse_pot_no_stream
+from configuration_tinyllm import TinyllmConfig
+from generation_utils import TextIterStreamer, make_context, OutputRepetitionPenaltyLogitsProcessor, parse_pot_no_stream
 
 logger = logging.get_logger(__name__)
 

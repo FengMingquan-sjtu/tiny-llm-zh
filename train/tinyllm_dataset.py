@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/root/autodl-tmp/codes/tiny-llm-zh/")
 import os
 import pickle
 import jsonlines
