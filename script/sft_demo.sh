@@ -4,23 +4,25 @@ set -x
 
 # export CUDA_VISIBLE_DEVICES="1,2,3,4,5,6,7"
 
-source /home/.bashrc
-source /home/miniconda3/etc/profile.d/conda.sh
-conda activate md_llm
-which python
+#source /home/.bashrc
+#source /home/miniconda3/etc/profile.d/conda.sh
+#conda activate md_llm
+#which python
+
+source /etc/network_turbo  #proxy for huggingface
 
 function killall {                                                                                                                                                                                      
     echo `ps -ef | grep $1 | grep -v grep | awk '{print $2}'`
     ps -ef | grep $1 | grep -v grep | awk '{print $2}' |xargs kill -9
 }
 
-WORK_DIR="/personal/tiny-llm-zh"
+WORK_DIR="/root/autodl-tmp/codes/tiny-llm-zh"
 cd ${WORK_DIR}
 
 # 常见参数
 N_NODES=1
-N_GPUS=8
-MBS=32 # 单卡bs
+N_GPUS=2
+MBS=24 # 单卡bs
 GAS=1 # 梯度累积
 GRAD_CLIP=1     # 梯度裁剪
 RANK=0
@@ -41,8 +43,8 @@ RESUME="False"
 
 # 数据
 MODE="sft" # [ptm, sft, rm, rl]
-DATASET_DIR_OR_PATH="data/sft_train/sft_data.jsonl"
-BASE_MODEL_PATH="outputs/ckpt/ptm_tiny_llm_92m_epoch5/last_ptm_model"
+DATASET_DIR_OR_PATH="/root/autodl-tmp/tiny_llm_dataset/sft_train/sft_train/sft_data.jsonl"
+BASE_MODEL_PATH="wdndev/tiny_llm_sft_92m"
 
 MODEL_SIZE="92m" # [16m, 42m, 92m, 210m, 440m]
 MODEL_NAME="${MODE}_tiny_llm_${MODEL_SIZE}"
