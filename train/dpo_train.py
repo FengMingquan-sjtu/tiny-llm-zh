@@ -26,6 +26,10 @@ class ScriptArguments:
     """
     The arguments for the DPO training script.
     """
+    mode : Optional[str] = field(
+        default="ptm", 
+        metadata={"help": "dummy argument for training mode, can only be rl"}
+    )
 
     # data parameters
     beta: Optional[float] = field(default=0.1, metadata={"help": "the beta parameter for DPO loss"})
@@ -136,7 +140,6 @@ if __name__ == "__main__":
     #     and len(x["prompt"]) + len(x["rejected"]) <= script_args.max_length
     # )
 
-    data_path = "/mnt/cephfs-xiongzhuang/wangdongnian/tiny-llm-zh/data/rm_train/rm_data.jsonl"
     dpo_dataset = load_dpo_dataset(script_args.dataset_dir_or_path, max_length=script_args.max_length, sanity_check=script_args.sanity_check)
 
     train_loader = torch.utils.data.DataLoader(
@@ -155,6 +158,7 @@ if __name__ == "__main__":
     # 3. Load evaluation dataset
     if script_args.eval_dataset_dir_or_path == "":
         evaluation_strategy = "no"
+        eval_dataset = None
     else:
         evaluation_strategy = "steps"
         eval_dataset = load_dpo_dataset(script_args.eval_dataset_dir_or_path, max_length=script_args.max_length, sanity_check=script_args.sanity_check)

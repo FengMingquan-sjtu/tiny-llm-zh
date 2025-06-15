@@ -4,22 +4,22 @@ set -x
 
 # export CUDA_VISIBLE_DEVICES="1,2,3,4,5,6,7"
 
-source /home/.bashrc
-source /home/miniconda3/etc/profile.d/conda.sh
-conda activate md_llm
-which python
+#source /home/.bashrc
+#source /home/miniconda3/etc/profile.d/conda.sh
+#conda activate md_llm
+#which python
 
 function killall {                                                                                                                                                                                      
     echo `ps -ef | grep $1 | grep -v grep | awk '{print $2}'`
     ps -ef | grep $1 | grep -v grep | awk '{print $2}' |xargs kill -9
 }
 
-WORK_DIR="/personal/tiny-llm-zh"
+WORK_DIR="/root/autodl-tmp/codes/tiny-llm-zh"
 cd ${WORK_DIR}
 
 # 常见参数
 N_NODES=1
-N_GPUS=8
+N_GPUS=1
 MBS=32 # 单卡bs
 GAS=1 # 梯度累积
 GRAD_CLIP=1     # 梯度裁剪
@@ -41,8 +41,8 @@ RESUME="False"
 
 # 数据
 MODE="rl" # [ptm, sft, rm, rl]
-DATASET_DIR_OR_PATH="data/rl_train/rl_train_data.jsonl"
-BASE_MODEL_PATH="outputs/ckpt/sft_tiny_llm_92m_epoch5/last_sft_model"
+DATASET_DIR_OR_PATH="/root/autodl-tmp/tiny_llm_dataset/rl_train/rl_train/rl_train_data.jsonl"
+BASE_MODEL_PATH="wdndev/tiny_llm_sft_92m"
 
 MODEL_SIZE="92m" # [16m, 42m, 92m, 210m, 440m]
 MODEL_NAME="${MODE}_tiny_llm_${MODEL_SIZE}"
@@ -219,7 +219,7 @@ if [ "$N_NODES" -ge 2 ]; then
 fi
 
 # 所有参数
-ALL_ARGS=" $GPT_ARGS $TRAIN_ARGS $SCRIPT_ARGS "
+ALL_ARGS=" $SCRIPT_ARGS "
 
 LAUNCHER="torchrun $DISTRIBUTED_ARGS train/dpo_train.py "
 

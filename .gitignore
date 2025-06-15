@@ -1,6 +1,8 @@
 # 输出文件
 __pycache__
-
+*.log
+runs
+results
 outputs
 data
 infer_chat_template.py
